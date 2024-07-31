@@ -1,8 +1,6 @@
 name: Auto Sign In
 
 on:
-  schedule:
-    - cron: '0 0 * * *'  # 每天执行一次
   workflow_dispatch:
 
 jobs:
