@@ -47,11 +47,15 @@ sign_page_url = base_url + 'plugin.php?id=dsu_paulsign:sign'
 # 签到信息提交地址
 sign_submit_url = base_url + 'plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=0&inajax=0'
 
+print("Starting the sign-in process")
+
 # 访问论坛登录页面，保存Cookies
 response, cookies = requests_get(login_page_url, save=True)
+print(f"Login page response: {response[:500]}")  # 打印前500个字符以避免过多输出
 
 # 获取DiscuzX论坛的formhash验证串
 formhash = get_formhash(response)
+print(f"Obtained formhash: {formhash}")
 
 # 构建登录信息
 login_data = {
@@ -65,15 +69,22 @@ login_data = {
 
 # 携带cookie提交登录信息
 response, cookies = requests_get(login_submit_url, use=True, save=True, post_data=login_data, cookies=cookies)
+print(f"Login submit response: {response[:500]}")  # 打印前500个字符以避免过多输出
+
 if '欢迎您回来' in response:
+    print("Login successful")
     # 访问签到页面
     response, cookies = requests_get(sign_page_url, use=True, save=True, cookies=cookies)
+    print(f"Sign page response: {response[:500]}")  # 打印前500个字符以避免过多输出
+
     # 根据签到页面上的文字来判断今天是否已经签到
     if '您今天已经签到过了或者签到时间还未开始' in response:
         result_str = "今天已签过到\r\n"
     else:
         # 获取formhash验证串
         formhash = get_formhash(response)
+        print(f"Sign formhash: {formhash}")
+
         # 构造签到信息
         post_data = {
             'qdmode': 1,
@@ -84,6 +95,8 @@ if '欢迎您回来' in response:
         }
         # 提交签到信息
         response, _ = requests_get(sign_submit_url, use=True, save=True, post_data=post_data, cookies=cookies)
+        print(f"Sign submit response: {response[:500]}")  # 打印前500个字符以避免过多输出
+
         if '签到成功' in response:
             result_str = "签到成功\r\n"
         else:
