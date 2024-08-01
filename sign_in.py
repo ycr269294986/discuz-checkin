@@ -1,6 +1,9 @@
 import os
 import requests
 import re
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 def requests_get(url, use=False, referer=None, post_data=None, cookies=None):
     headers = {
@@ -26,6 +29,21 @@ def get_formhash(response_text):
     else:
         exit('没有找到formhash')
 
+def send_email(subject, body, from_email, to_email, smtp_server, smtp_port, smtp_user, smtp_password):
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = to_email
+    msg['Subject'] = subject
+
+    msg.attach(MIMEText(body, 'plain'))
+
+    server = smtplib.SMTP(smtp_server, smtp_port)
+    server.starttls()
+    server.login(smtp_user, smtp_password)
+    text = msg.as_string()
+    server.sendmail(from_email, to_email, text)
+    server.quit()
+
 # 从环境变量中获取Cookies字符串
 cookies_str = os.getenv('COOKIES')  # 论坛的Cookies字符串
 # 将Cookies字符串解析为字典
@@ -36,6 +54,14 @@ base_url = os.getenv('BASE_URL')  # 论坛首页地址，结尾带上"/"
 # 心情：开心，难过，郁闷，无聊，怒，擦汗，奋斗，慵懒，衰
 qdxq = os.getenv('QDXQ', 'kx')  # 签到时使用的心情
 todaysay = os.getenv('TODAYSAY', '开心~~~')  # 想说的话
+
+# 邮件相关环境变量
+smtp_server = os.getenv('SMTP_SERVER')
+smtp_port = int(os.getenv('SMTP_PORT', 587))
+smtp_user = os.getenv('SMTP_USER')
+smtp_password = os.getenv('SMTP_PASSWORD')
+from_email = os.getenv('FROM_EMAIL')
+to_email = os.getenv('TO_EMAIL')
 
 # 签到页面地址
 sign_page_url = base_url + 'plugin.php?id=dsu_paulsign:sign'
@@ -74,3 +100,7 @@ else:
         result_str = "签到失败\r\n"
 
 print(result_str)
+
+# 发送邮件通知
+subject = "签到结果通知"
+send_email(subject, result_str, from_email, to_email, smtp_server, smtp_port, smtp_user, smtp_password)
