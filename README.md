@@ -7,4 +7,4 @@
 - SMTP_USER: SMTP服务器用户名。
 - SMTP_PASSWORD: SMTP服务器密码。
 - FROM_EMAIL: 发件人邮箱地址。
-- TO_EMAIL: 收件人邮箱地址。
+- TO_EMAIL: 收件人邮箱地址。 TO_EMAIL="example1@example.com, example2@example.com, example3@example.com"
