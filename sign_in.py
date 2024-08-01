@@ -76,7 +76,7 @@ print(f"Sign page response: {response[:500]}")  # 打印前500个字符以避免
 
 # 根据签到页面上的文字来判断今天是否已经签到
 if '您今天已经签到过了或者签到时间还未开始' in response:
-    result_str = "今天已签过到\r\n论坛今天已签过到"
+    result_str = "论坛今天已签过到\r\n"
 else:
     # 获取formhash验证串
     formhash = get_formhash(response)
@@ -95,12 +95,12 @@ else:
     print(f"Sign submit response: {response[:500]}")  # 打印前500个字符以避免过多输出
 
     if '签到成功' in response:
-        result_str = "签到成功\r\n论坛签到成功!"
+        result_str = "论坛签到成功\r\n!"
     else:
-        result_str = "签到失败\r\n论坛签到失败!"
+        result_str = "论坛签到失败!\r\n"
 
 print(result_str)
 
 # 发送邮件通知
-subject = "签到结果通知"
+subject = "论坛签到结果通知"
 send_email(subject, result_str, from_email, to_email, smtp_server, smtp_port, smtp_user, smtp_password)
