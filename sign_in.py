@@ -45,11 +45,11 @@ def send_email(subject, body, from_email, to_email, smtp_server, smtp_port, smtp
     server.quit()
 
 # 从环境变量中获取Cookies字符串
-cookies_str = os.getenv('COOKIES')  # 论坛的Cookies字符串
+cookies_str = os.getenv('0dfA_2132_saltkey=i3ENk991; 0dfA_2132_lastvisit=1754458459; 0dfA_2132_auth=93c81BNz1hMGrWwX3wHBGh0%2BOfS1SbGUgM9NmLUPtSk98SS%2FN7a3CAQsKF9%2FxPOV3Y2DlcZUVPcpJDQ9rUAh2zr55w; 0dfA_2132_lastcheckfeed=16517%7C1754462075; 0dfA_2132_nofavfid=1; 0dfA_2132_smile=1D1; 0dfA_2132_visitedfid=42D43D38; 0dfA_2132_forum_lastvisit=D_38_1754465416D_43_1754470320D_42_1754470994; 0dfA_2132_sid=V7Mz6c; 0dfA_2132_lip=36.33.40.111%2C1754470320; 0dfA_2132_onlineusernum=590; 0dfA_2132_ulastactivity=6751YMTTOBsV4kV1vf4%2Fzg3eS7zbSS6TQk248RwD1wKPLHo8rxa5; 0dfA_2132_sendmail=1; 0dfA_2132_checkpm=1; 0dfA_2132_lastact=1754535809%09misc.php%09patch')  # 论坛的Cookies字符串
 # 将Cookies字符串解析为字典
 cookies = {item.split('=')[0]: item.split('=')[1] for item in cookies_str.split('; ')}
 
-base_url = os.getenv('BASE_URL')  # 论坛首页地址，结尾带上"/"
+base_url = os.getenv('https://www.catia8.com/')  # 论坛首页地址，结尾带上"/"
 
 # 心情：开心，难过，郁闷，无聊，怒，擦汗，奋斗，慵懒，衰
 qdxq = os.getenv('QDXQ', 'kx')  # 签到时使用的心情
